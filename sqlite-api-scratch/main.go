@@ -41,7 +41,7 @@ func allFromOrg(db *sql.DB, org string) []Person {
 	fmt.Println("fetching data for org: ", org)
 	start := time.Now()
 	var People []Person
-	rows, err := db.Query("select ID, Name, Organization from people")
+	rows, err := db.Query("select ID, Name, Organization from people where Organization = ?", "Org2")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,7 +55,6 @@ func allFromOrg(db *sql.DB, org string) []Person {
 			log.Fatal(err)
 		}
 		People = append(People, Person{id, name, org})
-		fmt.Println(id, name, org)
 	}
 	err = rows.Err()
 	if err != nil {
@@ -102,5 +101,5 @@ func addDataToDB(db *sql.DB) {
 		}
 	}
 	tx.Commit()
-	fmt.Println("got and appended data in: ", time.Since(start))
+	fmt.Println("initialized db with some fake data in: ", time.Since(start))
 }
