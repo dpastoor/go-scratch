@@ -23,8 +23,8 @@ func main() {
 	addDataToDB(db)
 	api := iris.Party("/api")
 	v1 := api.Party("/v1")
-	v1.Get("/flu", func(ctx *iris.Context) {
-		ctx.JSON(http.StatusOK, allFromOrg(db, "Org1"))
+	v1.Get("/flu/:org", func(ctx *iris.Context) {
+		ctx.JSON(http.StatusOK, allFromOrg(db, ctx.Param("org")))
 	})
 	iris.Listen(":8080")
 }
@@ -41,7 +41,7 @@ func allFromOrg(db *sql.DB, org string) []Person {
 	fmt.Println("fetching data for org: ", org)
 	start := time.Now()
 	var People []Person
-	rows, err := db.Query("select ID, Name, Organization from people where Organization = ?", "Org2")
+	rows, err := db.Query("select ID, Name, Organization from people where Organization = ?", org)
 	if err != nil {
 		log.Fatal(err)
 	}
