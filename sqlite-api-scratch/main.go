@@ -14,7 +14,10 @@ import (
 )
 
 func main() {
-	os.Remove("./testapi.db")
+	err := os.Remove("./testapi.db")
+	if err != nil {
+		log.Fatal(err)
+	}
 	db, err := sql.Open("sqlite3", "./testapi.db")
 	if err != nil {
 		log.Fatal(err)
@@ -72,6 +75,11 @@ func addDataToDB(db *sql.DB) {
 			Name text,
 			Organization text
 			);
+		CREATE TABLE if not exists places(
+	  	someid INTEGER,
+	  	personid INTEGER,
+	  	FOREIGN KEY (personid) REFERENCES people(ID)
+		);
 		`
 	_, err := db.Exec(sqlStmt)
 	var names = []string{"James", "John", "Sally", "Sarah"}
