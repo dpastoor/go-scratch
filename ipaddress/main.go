@@ -7,32 +7,42 @@ import (
 )
 
 func main() {
-	ip, err := getIP()
-	if err != nil {
-		log.Printf("error getting IP: %s", err)
+	ips := getAllIps()
+	for _, ip := range ips {
+		if ip.Error != nil {
+			log.Printf("Error with ip %s: %s", ip.Name, ip.Error)
+		}
+		fmt.Printf("%s: %s\n", ip.Name, ip.IP)
 	}
-	fmt.Println(ip)
 }
-func getIP() (net.IP, error) {
+
+type ipinfo struct {
+	IP    net.IP
+	Name  string
+	Error error
+}
+
+func getAllIps() []ipinfo {
 	ifaces, _ := net.Interfaces()
-	var ip net.IP
+	var ips []ipinfo
 	// handle err
 	for _, i := range ifaces {
-		if i.Name == "eth0" {
-			addrs, err := i.Addrs()
-			if err != nil {
-				return ip, err
-			}
-			// handle err
-			for _, addr := range addrs {
-				switch v := addr.(type) {
-				case *net.IPNet:
-					if ipv4 := v.IP.To4(); ipv4 != nil {
-						ip = v.IP
-					}
+		var ip net.IP
+		addrs, err := i.Addrs()
+		if err != nil {
+			ips = append(ips, ipinfo{Name: i.Name, Error: err})
+			continue
+		}
+		// handle err
+		for _, addr := range addrs {
+			switch v := addr.(type) {
+			case *net.IPNet:
+				if ipv4 := v.IP.To4(); ipv4 != nil {
+					ip = v.IP
 				}
 			}
 		}
+		ips = append(ips, ipinfo{IP: ip, Name: i.Name, Error: err})
 	}
-	return ip, nil
+	return ips
 }
