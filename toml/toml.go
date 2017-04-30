@@ -19,8 +19,26 @@ type nestedConfig struct {
 	Nested simpleConfig
 }
 
+type model struct {
+	Type     string `toml:"type"`
+	Language string `toml:"language"`
+}
+
+type nestedArray struct {
+	Top    int
+	Models []model `toml:"models"`
+}
+
 func main() {
-	nestedTest()
+	nestedArrayTest()
+}
+
+func nestedArrayTest() {
+	var result nestedArray
+	if _, err := toml.DecodeFile("nested_arrays.toml", &result); err != nil {
+		fmt.Printf("could not decode")
+	}
+	fmt.Println(result)
 }
 
 func nestedTest() {
