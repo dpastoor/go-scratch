@@ -21,12 +21,13 @@ func handleUpload(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer file.Close()
-	fmt.Fprintf(w, "%v", handler.Header)
 	f, err := os.Create("../test/" + handler.Filename)
 	if err != nil {
-		fmt.Println(err)
+		w.WriteHeader(http.StatusExpectationFailed)
+		w.Write([]byte("failed"))
 		return
 	}
+	fmt.Fprintf(w, "%v", handler.Header)
 	defer f.Close()
 	io.Copy(f, file)
 }
