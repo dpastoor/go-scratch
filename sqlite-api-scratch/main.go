@@ -5,11 +5,9 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
-	"net/http"
 	"os"
 	"time"
 
-	"github.com/kataras/iris"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -24,12 +22,6 @@ func main() {
 	}
 	defer db.Close()
 	addDataToDB(db)
-	api := iris.Party("/api")
-	v1 := api.Party("/v1")
-	v1.Get("/flu/:org", func(ctx *iris.Context) {
-		ctx.JSON(http.StatusOK, allFromOrg(db, ctx.Param("org")))
-	})
-	iris.Listen(":8080")
 }
 
 // Person is a simple type for testing sqlite
