@@ -10,5 +10,7 @@ func main() {
 	if err != nil {
 		fmt.Println(fmt.Errorf("error with user %s", err))
 	}
-	fmt.Println(usr.HomeDir)
+	fmt.Println("HOMEDIR:", usr.HomeDir)
+	fmt.Println("Name:", usr.Name)
+	fmt.Println("Username:", usr.Username)
 }
