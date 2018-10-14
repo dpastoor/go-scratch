@@ -20,6 +20,25 @@ func ExecWithContextTimer() {
 	}
 }
 
+func ExecWithContextCancellationTimer() {
+	ctx, cancel := context.WithTimeout(context.Background(), 500*time.Millisecond)
+	fmt.Println("started...")
+	start_time := time.Now()
+	go func(c context.CancelFunc) {
+		time.Sleep(100 * time.Millisecond)
+		c()
+	}(cancel)
+	if err := exec.CommandContext(ctx, "sleep", "5").Run(); err != nil {
+		// This will fail after 100 milliseconds. The 5 second sleep
+		// will be interrupted.
+		fmt.Println("ended...", time.Since(start_time))
+		fmt.Println(err)
+		// will give err context canceled given cancelFunc is called
+		// or will give deadline exceeded if timed out
+		fmt.Println(ctx.Err())
+	}
+
+}
 func ExecWithExternalCancellation() {
 	cmd := exec.Command("sleep", "5")
 
