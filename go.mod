@@ -5,7 +5,7 @@ require (
 	github.com/AlecAivazis/survey v1.7.1
 	github.com/BurntSushi/toml v0.3.1
 	github.com/alecthomas/chroma v0.6.2
-	github.com/bradleyfalzon/ghinstallation v0.1.2 // indirect
+	github.com/bradleyfalzon/ghinstallation v0.1.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/docker/distribution v2.7.0+incompatible // indirect
 	github.com/docker/docker v1.13.1
@@ -13,7 +13,7 @@ require (
 	github.com/docker/go-units v0.3.3 // indirect
 	github.com/dsnet/compress v0.0.0-20171208185109-cc9eb1d7ad76 // indirect
 	github.com/golang/snappy v0.0.0-20180518054509-2e65f85255db // indirect
-	github.com/google/go-github v17.0.0+incompatible // indirect
+	github.com/google/go-github v17.0.0+incompatible
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/klauspost/cpuid v1.2.1
